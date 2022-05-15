@@ -65,7 +65,7 @@ app.post('/regisDB', async (req,res) => {
     sql = `INSERT INTO userInfo (username, email, password, score) VALUES("${req.body.username}", "${req.body.email}", "${req.body.password}",'0')`;
     result = await queryDB(sql);
 
-    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100))";
+    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100), likeCount VARCHAR(100), dislikeCount VARCHAR(100))";
     result = await queryDB(sql_msg);
 
     console.log("New Data Created!")
@@ -136,7 +136,7 @@ app.post('/writePost',async (req,res) => {
     const newMsg = req.body;
     var keys = Object.keys(newMsg);
 
-    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100))";
+    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100), likeCount VARCHAR(100), dislikeCount VARCHAR(100))";
     let result_msg = await queryDB(sql_msg);
     sql_msg = `INSERT INTO msgInfo (user, message) VALUES("${newMsg[keys[0]]}", "${newMsg[keys[1]]}")`;
     result_msg = await queryDB(sql_msg);
