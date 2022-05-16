@@ -5,7 +5,7 @@ const hostname = 'localhost';
 const port = 3000;
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-const multer = require('multer');
+// const multer = require('multer');
 const path = require('path');
 const mysql = require('mysql');
 
@@ -143,6 +143,24 @@ app.post('/writePost',async (req,res) => {
     res.json(result_msg);
 })
 
+app.get('/readRanking', async (req,res) => {
+    
+    let ranking_read = `SELECT username, score FROM ${tablename} ORDER BY score DESC LIMIT 5`;
+    let result = await queryDB(ranking_read);
+    result = Object.assign({},result);
+    // var jsonData = JSON.stringify(result);
+    // res.json(jsonData);
+
+    for(const key in result)
+    {
+        console.log(`${key}:${result[key].username},${result[key].score}`);
+    }
+
+    // console.log(result.map((element) => element));
+    
+
+})
+
 //ทำให้สมบูรณ์
 
 app.post('/checkLogin',async (req,res) => {
@@ -154,7 +172,7 @@ app.post('/checkLogin',async (req,res) => {
     let sql = `SELECT  id, username, password, score FROM ${tablename}`;
     let result = await queryDB(sql);
     result = Object.assign({},result)
-    console.log(result);
+    //console.log(result);
 
     const username = req.body.username;
     const password = req.body.password;
