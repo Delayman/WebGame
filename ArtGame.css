@@ -1,0 +1,69 @@
+body
+{
+    margin: 0%;
+    padding: 0%;
+}
+div
+{
+    text-align: center;
+}
+.grid-container
+{
+    display: grid;
+    grid-template-columns: 70% auto;
+    grid-gap: 5px;
+    border: 10px solid black ;
+    background-color: black;
+    
+}
+#GameName
+{
+    grid-column: 1 / span 1;
+    background-color: rgb(13, 212, 43);
+    color: azure;
+    font-size: 300%;
+    
+}
+#UserName
+{
+    grid-column: 2 / span 1;
+    background-color: rgb(13, 212, 43);
+    color: azure;
+    font-size: 200%;
+    text-align: left;
+   
+    
+}
+#GameInterFace
+{
+    grid-column: 1 / span 1;
+    background-color: rgb(105, 183, 232);
+    color: azure;
+}
+#GameRanking
+{
+    grid-column: 2 / span 1;
+    background-color: rgb(192, 192, 192);
+    color: rgb(56, 56, 56);
+}
+#GamePost
+{
+    grid-column: 1 / span 2;
+    background-color: rgb(42, 239, 223);
+    color: rgb(56, 56, 56);
+}
+#Logout
+{
+    text-align: right;
+    
+}
+#Game_Pic
+{
+    width: 40%;
+}
+#Score
+{
+    font-size: 300%;
+    margin-bottom: -2%;
+    font-weight: bold;
+}
