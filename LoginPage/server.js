@@ -9,7 +9,7 @@ const multer = require('multer');
 const path = require('path');
 const mysql = require('mysql');
 
-app.use(express.static('LoginPage/public'));
+app.use(express.static('LoginPage'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -69,7 +69,7 @@ app.post('/regisDB', async (req,res) => {
     result = await queryDB(sql_msg);
 
     console.log("New Data Created!")
-    return res.redirect('login.html')
+    return res.redirect('public/login.html')
 })
 
 //ทำให้สมบูรณ์
@@ -117,7 +117,7 @@ let tablename = "userInfo";
 app.get('/logout', (req,res) => {
 
     res.clearCookie('username');
-    return res.redirect('login.html');
+    return res.redirect('public/login.html');
 })
 
 //ทำให้สมบูรณ์
@@ -176,7 +176,7 @@ app.post('/checkLogin',async (req,res) => {
 
     if(isCorrect)
     {
-        return res.redirect('feed.html');
+        return res.redirect('Game.html');
     }else
     {
         return res.redirect('index.html?error=1')
@@ -185,5 +185,5 @@ app.post('/checkLogin',async (req,res) => {
 
 
  app.listen(port, hostname, () => {
-        console.log(`Server running at   http://${hostname}:${port}/login.html`);
+        console.log(`Server running at   http://${hostname}:${port}/public/login.html`);
 });
