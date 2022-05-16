@@ -179,7 +179,7 @@ app.post('/checkLogin',async (req,res) => {
         return res.redirect('Game.html');
     }else
     {
-        return res.redirect('index.html?error=1')
+        return res.redirect('public/index.html?error=1')
     }
 })
 
