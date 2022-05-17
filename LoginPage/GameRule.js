@@ -8,7 +8,6 @@ function checkCookie()
 
 checkCookie();
 window.onload = pageLoad;
-var timer = null;
 
 function getCookie(name){
 	var value = "";
@@ -22,8 +21,6 @@ function getCookie(name){
 
 function pageLoad()
 {
-    timer = setInterval (getScore, 3000);
-
     var img = document.getElementById("Game_Pic");
     var count = document.getElementById("Score");
     var score = 0;
@@ -50,31 +47,30 @@ async function readRankingData()
 {
 	let response = await fetch("/readRanking");
 	let content = await response.json();
-    await console.log(content);
+    let ranking = await showRanking(JSON.parse(content));
+	
+	
 }
 
-function getScore()
-{
-    let clickcount = document.getElementById("Score").value;
-    UpdateClickcount(clickcount);
-}
+function showRanking(data){
+	var keys = Object.keys(data);
+	var divTag = document.getElementById("GameRanking");
+	divTag.innerHTML = "";
+	for (var i = 0; i <= keys.length-1 ; i++) {
 
-async function UpdateScroe();
-{
-    
-}
+		var temp = document.createElement("div");
+		temp.className = "ranking";
+		divTag.appendChild(temp);
+        
+		var temp1 = document.createElement("div");
+		temp1.className = "rankingUser" + (i+1);
+		temp1.innerHTML = data[keys[i]]["username"];
+		temp.appendChild(temp1);
 
-async function UpdateClickcount(clickcount)
-{
-    var username = getCookie('username');
-	let response = await fetch("/UpdateScore",{
-		method: "POST",
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			user:username,
-			click:clickcount})
-	});
+		var temp1 = document.createElement("div");
+		temp1.className = "rankingScore" + (i+1);
+		temp1.innerHTML = "Score: "+data[keys[i]]["score"];
+		temp.appendChild(temp1);
+		
+	}
 }

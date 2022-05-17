@@ -145,18 +145,22 @@ app.post('/writePost',async (req,res) => {
 
 app.get('/readRanking', async (req,res) => {
     
-    let ranking_read = `SELECT username, score FROM ${tablename} ORDER BY score DESC LIMIT 5`;
+    let ranking_read = `SELECT username, score FROM ${tablename} ORDER BY CAST(score AS INT) DESC LIMIT 10`;
     let result = await queryDB(ranking_read);
+    
     result = Object.assign({},result);
     // var jsonData = JSON.stringify(result);
     // res.json(jsonData);
+    console.log(result);
 
-    for(const key in result)
-    {
-        console.log(`${key}:${result[key].username},${result[key].score}`);
-    }
+    var jsonData = JSON.stringify(result);
+    res.json(jsonData);
 
-    // console.log(result.map((element) => element));
+    // for(const key in result)
+    // {
+    //     console.log(`${key}:${result[key].username},${result[key].score}`);
+    //     res.json(`${key}:${result[key].username},${result[key].score}`);
+    // }
     
 
 })
@@ -197,7 +201,7 @@ app.post('/checkLogin',async (req,res) => {
         return res.redirect('Game.html');
     }else
     {
-        return res.redirect('public/index.html?error=1')
+        return res.redirect('index.html?error=1')
     }
 })
 
