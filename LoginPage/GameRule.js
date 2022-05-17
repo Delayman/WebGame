@@ -63,12 +63,12 @@ function showRanking(data){
 		divTag.appendChild(temp);
         
 		var temp1 = document.createElement("div");
-		temp1.className = "rankingUser";
+		temp1.className = "rankingUser" + (i+1);
 		temp1.innerHTML = data[keys[i]]["username"];
 		temp.appendChild(temp1);
 
 		var temp1 = document.createElement("div");
-		temp1.className = "rankingScore";
+		temp1.className = "rankingScore" + (i+1);
 		temp1.innerHTML = "Score: "+data[keys[i]]["score"];
 		temp.appendChild(temp1);
 		
