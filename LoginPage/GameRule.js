@@ -47,8 +47,30 @@ async function readRankingData()
 {
 	let response = await fetch("/readRanking");
 	let content = await response.json();
-    await console.log(content);
+    let ranking = await showRanking(JSON.parse(content));
 	
 	
 }
 
+function showRanking(data){
+	var keys = Object.keys(data);
+	var divTag = document.getElementById("GameRanking");
+	divTag.innerHTML = "";
+	for (var i = 0; i <= keys.length-1 ; i++) {
+
+		var temp = document.createElement("div");
+		temp.className = "ranking";
+		divTag.appendChild(temp);
+        
+		var temp1 = document.createElement("div");
+		temp1.className = "rankingUser";
+		temp1.innerHTML = data[keys[i]]["username"];
+		temp.appendChild(temp1);
+
+		var temp1 = document.createElement("div");
+		temp1.className = "rankingScore";
+		temp1.innerHTML = "Score: "+data[keys[i]]["score"];
+		temp.appendChild(temp1);
+		
+	}
+}
