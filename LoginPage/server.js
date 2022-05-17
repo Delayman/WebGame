@@ -37,7 +37,7 @@ app.use(cookieParser());
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "1123",
+    password: "",
     database: "webgamedata"
 })
 
@@ -60,12 +60,12 @@ const queryDB = (sql) => {
 }
 
 app.post('/regisDB', async (req,res) => {
-    let sql = "CREATE TABLE IF NOT EXISTS userInfo (id INT AUTO_INCREMENT PRIMARY KEY,reg_date TIMESTAMP,username VARCHAR(255),email VARCHAR(100),password VARCHAR(100),score VARCHAR(255),likeCount VARCHAR(255),dislikeCount VARCHAR(255))";
+    let sql = "CREATE TABLE IF NOT EXISTS userInfo_D (id INT AUTO_INCREMENT PRIMARY KEY,reg_date TIMESTAMP,username VARCHAR(255),email VARCHAR(100),password VARCHAR(100),score VARCHAR(255),likeCount VARCHAR(255),dislikeCount VARCHAR(255))";
     let result = await queryDB(sql);
-    sql = `INSERT INTO userInfo (username, email, password, score, likeCount, dislikeCount) VALUES("${req.body.username}", "${req.body.email}", "${req.body.password}",'0','0','0')`;
+    sql = `INSERT INTO userInfo_D (username, email, password, score, likeCount, dislikeCount) VALUES("${req.body.username}", "${req.body.email}", "${req.body.password}",'0','0','0')`;
     result = await queryDB(sql);
 
-    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100))";
+    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo_D (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100))";
     result = await queryDB(sql_msg);
 
     console.log("New Data Created!")
@@ -106,7 +106,7 @@ app.post('/regisDB', async (req,res) => {
 //         } 
 //     }
 // })
-let tablename = "userInfo";
+let tablename = "userInfo_D";
 // const updateImg = async (username, filen) => {
 //     let sql =  `UPDATE ${tablename} SET img = '${filen}' WHERE username = '${username}'`;
 //     let result = await queryDB(sql);
@@ -121,7 +121,7 @@ app.get('/logout', (req,res) => {
 })
 
 //ทำให้สมบูรณ์
-let tablename_msg = "msgInfo";
+let tablename_msg = "msgInfo_D";
 app.get('/readPost', async (req,res) => {
     
     let msg_read = `SELECT user, message FROM ${tablename_msg}`;
@@ -136,9 +136,9 @@ app.post('/writePost',async (req,res) => {
     const newMsg = req.body;
     var keys = Object.keys(newMsg);
 
-    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100))";
+    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo_D (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100))";
     let result_msg = await queryDB(sql_msg);
-    sql_msg = `INSERT INTO msgInfo (user, message) VALUES("${newMsg[keys[0]]}", "${newMsg[keys[1]]}")`;
+    sql_msg = `INSERT INTO msgInfo_D (user, message) VALUES("${newMsg[keys[0]]}", "${newMsg[keys[1]]}")`;
     result_msg = await queryDB(sql_msg);
     res.json(result_msg);
 })
@@ -151,7 +151,7 @@ app.get('/readRanking', async (req,res) => {
     result = Object.assign({},result);
     // var jsonData = JSON.stringify(result);
     // res.json(jsonData);
-    console.log(result);
+    // console.log(result);
 
     var jsonData = JSON.stringify(result);
     res.json(jsonData);
@@ -208,22 +208,48 @@ app.post('/checkLogin',async (req,res) => {
 app.post('/Addlike',async (req,res) => {
     const newLike = req.body;
     let keys = Object.keys(newLike);
-    let like = `SELECT  likeCount ${tablename}`;
+    let like = `SELECT CAST(likeCount AS INT) FROM ${tablename}`;
     let result_like = await queryDB(like);
-    result_like = result_like + newLike[keys[1]];
-    console.log(result_like);
-    let updatelike = `UPDATE ${tablename} SET likeCount = '${result_like}' WHERE username = '${newLike[keys[0]]}'`;
+    result_like = result_like + parseInt(newLike[keys[0]]);
+    console.log("newLike key : " + newLike[keys[1]]);
+    console.log("Like result : " + result_like);
+    let updatelike = `UPDATE ${tablename} SET likeCount = '${result_like}' WHERE username = '${newLike[keys[1]]}'`;
     let result_updatelike = await queryDB(updatelike);
+    
+    res.json();
 })
 
 app.post('/UpdateScore',async (req,res) => {
     const userdata = req.body;
     let userkeys = Object.keys(userdata);
     
-    let userSqldata = `SELECT  likeCount, dislikeCount FROM ${"msgInfo"}`;
+    let userSqldata = `SELECT  likeCount, dislikeCount FROM ${"msgInfo_D"}`;
     let result = await queryDB(userSqldata);
     result = Object.assign({},result)
 })
+
+var timer = setInterval (UpdateScore, 3000);
+async function UpdateScore()
+{
+    let sql = `SELECT  username, CAST(score AS INT), CAST(likeCount AS INT), CAST(dislikeCount AS INT) FROM ${tablename}`;
+    let result = await queryDB(sql);
+    result.then(
+        result = Object.assign({},result);
+        console.log(result);
+        let Obj = Object.keys(result);
+        for(let i = 0; i < Obj.length ; i++)
+        {
+            let temp = result[Obj[i]];
+            let UserName = temp.username;
+            let Score = temp.score;
+            let Like = temp.likeCount;
+            let Dislike = temp.dislikeCount;
+            let SumScore = (Score+(Like*10))-(Dislike*100); 
+            let updatescore = `UPDATE ${tablename} SET score = '${SumScore}' WHERE username = '${UserName}'`;
+            let result = await queryDB(sql);
+        }
+    );
+}
 
  app.listen(port, hostname, () => {
         console.log(`Server running at   http://${hostname}:${port}/public/login.html`);

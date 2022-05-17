@@ -8,7 +8,6 @@ function checkCookie()
 
 checkCookie();
 window.onload = pageLoad;
-var timer = null;
 
 function getCookie(name){
 	var value = "";
@@ -25,6 +24,8 @@ function pageLoad()
     var img = document.getElementById("Game_Pic");
     var count = document.getElementById("Score");
     var score = 0;
+
+	timer = setInterval (UpdateScore, 3000);
 
     img.addEventListener('mousedown', function ()
     {
@@ -89,6 +90,9 @@ async function AddLike(ID)
 	let jsonrankdata = JSON.parse(content);
 	let jsonkeys = Object.keys(jsonrankdata);
 	let username = jsonrankdata[jsonkeys[ID]];
+	console.log("ID : "+ID);
+	console.log("Json data : "+jsonrankdata);
+	console.log("Name : "+username);
 
 	let response = await fetch("/Addlike",{
 		method: "POST",
@@ -100,4 +104,5 @@ async function AddLike(ID)
 			user:username,
 			Like:1})
 	});
+
 }
