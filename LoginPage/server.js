@@ -131,6 +131,15 @@ app.get('/readPost', async (req,res) => {
     res.json(jsonData);
 })
 
+app.get('/readUsername', async (req,res) => {
+    
+    let msg_read = `SELECT username FROM ${tablename}`;
+    let result = await queryDB(msg_read);
+    result = Object.assign({},result);
+    var jsonData = JSON.stringify(result);
+    res.json(jsonData);
+})
+
 //ทำให้สมบูรณ์
 app.post('/writePost',async (req,res) => {
     const newMsg = req.body;
@@ -151,7 +160,7 @@ app.get('/readRanking', async (req,res) => {
     result = Object.assign({},result);
     // var jsonData = JSON.stringify(result);
     // res.json(jsonData);
-    console.log(result);
+    // console.log(result);
 
     var jsonData = JSON.stringify(result);
     res.json(jsonData);
@@ -207,5 +216,5 @@ app.post('/checkLogin',async (req,res) => {
 
 
  app.listen(port, hostname, () => {
-        console.log(`Server running at   http://${hostname}:${port}/public/login.html`);
+        console.log(`Server running at   http://${hostname}:${port}/public/Login.html`);
 });
