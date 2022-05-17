@@ -60,12 +60,12 @@ const queryDB = (sql) => {
 }
 
 app.post('/regisDB', async (req,res) => {
-    let sql = "CREATE TABLE IF NOT EXISTS userInfo (id INT AUTO_INCREMENT PRIMARY KEY,reg_date TIMESTAMP,username VARCHAR(255),email VARCHAR(100),password VARCHAR(100),score VARCHAR(255))";
+    let sql = "CREATE TABLE IF NOT EXISTS userInfo (id INT AUTO_INCREMENT PRIMARY KEY,reg_date TIMESTAMP,username VARCHAR(255),email VARCHAR(100),password VARCHAR(100),score VARCHAR(255),likeCount VARCHAR(255),dislikeCount VARCHAR(255))";
     let result = await queryDB(sql);
-    sql = `INSERT INTO userInfo (username, email, password, score) VALUES("${req.body.username}", "${req.body.email}", "${req.body.password}",'0')`;
+    sql = `INSERT INTO userInfo (username, email, password, score, likeCount, dislikeCount) VALUES("${req.body.username}", "${req.body.email}", "${req.body.password}",'0','0','0')`;
     result = await queryDB(sql);
 
-    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100), likeCount VARCHAR(100), dislikeCount VARCHAR(100))";
+    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100))";
     result = await queryDB(sql_msg);
 
     console.log("New Data Created!")
@@ -136,7 +136,7 @@ app.post('/writePost',async (req,res) => {
     const newMsg = req.body;
     var keys = Object.keys(newMsg);
 
-    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100), likeCount VARCHAR(100), dislikeCount VARCHAR(100))";
+    let sql_msg = "CREATE TABLE IF NOT EXISTS msgInfo (msg_id INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255), message VARCHAR(100))";
     let result_msg = await queryDB(sql_msg);
     sql_msg = `INSERT INTO msgInfo (user, message) VALUES("${newMsg[keys[0]]}", "${newMsg[keys[1]]}")`;
     result_msg = await queryDB(sql_msg);
@@ -205,15 +205,24 @@ app.post('/checkLogin',async (req,res) => {
     }
 })
 
+app.post('/Addlike',async (req,res) => {
+    const newLike = req.body;
+    let keys = Object.keys(newLike);
+    let like = `SELECT  likeCount ${tablename}`;
+    let result_like = await queryDB(like);
+    result_like = result_like + newLike[keys[1]];
+    console.log(result_like);
+    let updatelike = `UPDATE ${tablename} SET likeCount = '${result_like}' WHERE username = '${newLike[keys[0]]}'`;
+    let result_updatelike = await queryDB(updatelike);
+})
+
 app.post('/UpdateScore',async (req,res) => {
     const userdata = req.body;
     let userkeys = Object.keys(userdata);
     
-    let userSqldata = `SELECT  likeCount, dislikeCount FROM ${tablename}`;
+    let userSqldata = `SELECT  likeCount, dislikeCount FROM ${"msgInfo"}`;
     let result = await queryDB(userSqldata);
     result = Object.assign({},result)
-
-
 })
 
  app.listen(port, hostname, () => {

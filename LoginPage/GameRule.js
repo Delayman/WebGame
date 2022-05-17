@@ -8,6 +8,7 @@ function checkCookie()
 
 checkCookie();
 window.onload = pageLoad;
+var timer = null;
 
 function getCookie(name){
 	var value = "";
@@ -72,5 +73,31 @@ function showRanking(data){
 		temp1.innerHTML = "Score: "+data[keys[i]]["score"];
 		temp.appendChild(temp1);
 		
+		var likebottontemp = document.createElement("button");
+		likebottontemp.className = "LikeButton"
+		likebottontemp.id = i+1;
+		likebottontemp.innerHTML = "Like";
+		likebottontemp.addEventListener("click",AddLike(this.id))
+		temp.appendChild(likebottontemp);
 	}
+}
+
+async function AddLike(ID)
+{
+	let getData = await fetch("/readRanking");
+	let content = await getData.json();
+	let jsonrankdata = JSON.parse(content);
+	let jsonkeys = Object.keys(jsonrankdata);
+	let username = jsonrankdata[jsonkeys[ID]];
+
+	let response = await fetch("/Addlike",{
+		method: "POST",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			user:username,
+			Like:1})
+	});
 }
