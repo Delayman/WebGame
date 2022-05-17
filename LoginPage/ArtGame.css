@@ -1,3 +1,8 @@
+body
+{
+    margin: 0%;
+    padding: 0%;
+}
 div
 {
     text-align: center;
@@ -32,7 +37,7 @@ div
 #GameInterFace
 {
     grid-column: 1 / span 1;
-    background-color: rgb(97, 97, 97);
+    background-color: rgb(105, 183, 232);
     color: azure;
 }
 #GameRanking
@@ -55,4 +60,10 @@ div
 #Game_Pic
 {
     width: 40%;
+}
+#Score
+{
+    font-size: 300%;
+    margin-bottom: -2%;
+    font-weight: bold;
 }

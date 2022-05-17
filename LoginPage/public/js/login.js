@@ -31,13 +31,13 @@ function pageLoad()
 function goRegister()
 {
 	var regButton = document.getElementById("goRegister").onclick = function(){
-		location.href = "/register.html"
+		location.href = "/public/register.html"
 	};
 }
 
 function goLogin()
 {
 	var loginButton = document.getElementById("goLogin").onclick = function(){
-		location.href = "/login.html"
+		location.href = "/public/login.html"
 	};
 }

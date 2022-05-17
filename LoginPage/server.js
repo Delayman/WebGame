@@ -5,11 +5,11 @@ const hostname = 'localhost';
 const port = 3000;
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-const multer = require('multer');
+// const multer = require('multer');
 const path = require('path');
 const mysql = require('mysql');
 
-app.use(express.static('LoginPage/public'));
+app.use(express.static('LoginPage'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -69,7 +69,7 @@ app.post('/regisDB', async (req,res) => {
     result = await queryDB(sql_msg);
 
     console.log("New Data Created!")
-    return res.redirect('login.html')
+    return res.redirect('public/login.html')
 })
 
 //ทำให้สมบูรณ์
@@ -117,7 +117,7 @@ let tablename = "userInfo";
 app.get('/logout', (req,res) => {
 
     res.clearCookie('username');
-    return res.redirect('login.html');
+    return res.redirect('public/login.html');
 })
 
 //ทำให้สมบูรณ์
@@ -143,6 +143,24 @@ app.post('/writePost',async (req,res) => {
     res.json(result_msg);
 })
 
+app.get('/readRanking', async (req,res) => {
+    
+    let ranking_read = `SELECT username, score FROM ${tablename} ORDER BY score DESC LIMIT 5`;
+    let result = await queryDB(ranking_read);
+    result = Object.assign({},result);
+    // var jsonData = JSON.stringify(result);
+    // res.json(jsonData);
+
+    for(const key in result)
+    {
+        console.log(`${key}:${result[key].username},${result[key].score}`);
+    }
+
+    // console.log(result.map((element) => element));
+    
+
+})
+
 //ทำให้สมบูรณ์
 
 app.post('/checkLogin',async (req,res) => {
@@ -154,7 +172,7 @@ app.post('/checkLogin',async (req,res) => {
     let sql = `SELECT  id, username, password, score FROM ${tablename}`;
     let result = await queryDB(sql);
     result = Object.assign({},result)
-    console.log(result);
+    //console.log(result);
 
     const username = req.body.username;
     const password = req.body.password;
@@ -176,14 +194,14 @@ app.post('/checkLogin',async (req,res) => {
 
     if(isCorrect)
     {
-        return res.redirect('feed.html');
+        return res.redirect('Game.html');
     }else
     {
-        return res.redirect('index.html?error=1')
+        return res.redirect('public/index.html?error=1')
     }
 })
 
 
  app.listen(port, hostname, () => {
-        console.log(`Server running at   http://${hostname}:${port}/login.html`);
+        console.log(`Server running at   http://${hostname}:${port}/public/login.html`);
 });
