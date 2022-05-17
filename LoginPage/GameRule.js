@@ -8,6 +8,7 @@ function checkCookie()
 
 checkCookie();
 window.onload = pageLoad;
+var timer = null;
 
 function getCookie(name){
 	var value = "";
@@ -21,6 +22,8 @@ function getCookie(name){
 
 function pageLoad()
 {
+    timer = setInterval (getScore, 3000);
+
     var img = document.getElementById("Game_Pic");
     var count = document.getElementById("Score");
     var score = 0;
@@ -48,7 +51,30 @@ async function readRankingData()
 	let response = await fetch("/readRanking");
 	let content = await response.json();
     await console.log(content);
-	
-	
 }
 
+function getScore()
+{
+    let clickcount = document.getElementById("Score").value;
+    UpdateClickcount(clickcount);
+}
+
+async function UpdateScroe();
+{
+    
+}
+
+async function UpdateClickcount(clickcount)
+{
+    var username = getCookie('username');
+	let response = await fetch("/UpdateScore",{
+		method: "POST",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			user:username,
+			click:clickcount})
+	});
+}

@@ -37,7 +37,7 @@ app.use(cookieParser());
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "",
+    password: "1123",
     database: "webgamedata"
 })
 
@@ -201,6 +201,16 @@ app.post('/checkLogin',async (req,res) => {
     }
 })
 
+app.post('/UpdateScore',async (req,res) => {
+    const userdata = req.body;
+    let userkeys = Object.keys(userdata);
+    
+    let userSqldata = `SELECT  likeCount, dislikeCount FROM ${tablename}`;
+    let result = await queryDB(userSqldata);
+    result = Object.assign({},result)
+
+
+})
 
  app.listen(port, hostname, () => {
         console.log(`Server running at   http://${hostname}:${port}/public/login.html`);
