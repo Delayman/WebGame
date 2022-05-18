@@ -43,26 +43,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, callback) => {
-//       callback(null, 'public/img/');
-//     },
-
-//     filename: (req, file, cb) => {
-//         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-//     }
-//   });
-
-// const imageFilter = (req, file, cb) => {
-//     // Accept images only
-//     if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
-//         req.fileValidationError = 'Only image files are allowed!';
-//         return cb(new Error('Only image files are allowed!'), false);
-//     }
-//     cb(null, true);
-// };
-
-// ใส่ค่าตามที่เราตั้งไว้ใน mysql
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -79,7 +59,6 @@ con.connect(err => {
 
 const queryDB = (sql) => {
     return new Promise((resolve,reject) => {
-        // query method
         con.query(sql, (err,result, fields) => {
             if (err) reject(err);
             else
@@ -101,55 +80,14 @@ app.post('/regisDB', async (req,res) => {
     return res.redirect('public/login.html')
 })
 
-//ทำให้สมบูรณ์
-// app.post('/profilepic', (req,res) => {
-//     let upload = multer({ storage: storage, fileFilter: imageFilter }).single('avatar');
-
-//     upload(req, res, (err) => {
-
-//         if (req.fileValidationError) {
-//             return res.send(req.fileValidationError);
-//         }
-//         else if (!req.file) {
-//             return res.send('Please select an image to upload');
-//         }
-//         else if (err instanceof multer.MulterError) {
-//             return res.send(err);
-//         }
-//         else if (err) {
-//             return res.send(err);
-//         }
-//         let username = getCookie('username');
-//         updateImg(username,req.file.filename)
-//         res.cookie('img' , req.file.filename);
-//         return res.redirect('feed.html')
-//     });
-//     function getCookie(name){
-//         var value = "";
-//         try{
-//             value = req.headers.cookie.split("; ").find(row => row.startsWith(name)).split('=')[1]
-//             // console.log(value);
-//             return value
-//         }catch(err){
-//             return false
-//         } 
-//     }
-// })
 let tablename = "userInfo";
-// const updateImg = async (username, filen) => {
-//     let sql =  `UPDATE ${tablename} SET img = '${filen}' WHERE username = '${username}'`;
-//     let result = await queryDB(sql);
-//     console.log(result);
-// }
 
-//ทำให้สมบูรณ์
 app.get('/logout', (req,res) => {
 
     res.clearCookie('username');
     return res.redirect('public/login.html');
 })
 
-//ทำให้สมบูรณ์
 let tablename_msg = "msgInfo";
 app.get('/readPost', async (req,res) => {
     
@@ -172,7 +110,6 @@ app.get('/readScore', async (req,res) => {
 })
 
 
-
 app.post('/writePost',async (req,res) => {
     const newMsg = req.body;
     var keys = Object.keys(newMsg);
@@ -187,37 +124,18 @@ app.post('/writePost',async (req,res) => {
 app.get('/readRanking', async (req,res) => {
     
     let ranking_read = `SELECT username, score FROM ${tablename} ORDER BY CAST(score AS INT) DESC LIMIT 10`;
-    let result = await queryDB(ranking_read);
-    
+    let result = await queryDB(ranking_read);  
     result = Object.assign({},result);
-    // var jsonData = JSON.stringify(result);
-    // res.json(jsonData);
-    // console.log(result);
 
     var jsonData = JSON.stringify(result);
     res.json(jsonData);
-
-    // for(const key in result)
-    // {
-    //     console.log(`${key}:${result[key].username},${result[key].score}`);
-    //     res.json(`${key}:${result[key].username},${result[key].score}`);
-    // }
-    
-
 })
 
-// var timer = setInterval(sleep(), 1000);
-
 app.post('/checkLogin',async (req,res) => {
-    // ถ้าเช็คแล้ว username และ password ถูกต้อง
-    // return res.redirect('feed.html');
-    // ถ้าเช็คแล้ว username และ password ไม่ถูกต้อง
-    // return res.redirect('login.html?error=1')
 
     let sql = `SELECT  id, username, password, score FROM ${tablename}`;
     let result = await queryDB(sql);
     result = Object.assign({},result)
-    //console.log(result);
 
     const username = req.body.username;
     const password = req.body.password;

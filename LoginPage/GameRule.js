@@ -81,14 +81,6 @@ async function readComment()
 	
 }
 
-// async function readUsername()
-// {
-// 	let response = await fetch("/readUsername");
-// 	let content = await response.json();
-//     let ranking = await showUsername(JSON.parse(content));
-	
-// }
-
 async function readSelfScore()
 {
 	let response = await fetch("/readScore");
