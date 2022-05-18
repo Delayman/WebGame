@@ -11,8 +11,8 @@
 			<form class="form" action="/regisDB" method="post" accept-charset="utf-8">
 				<fieldset>
 					<legend> Register </legend>
-					Username:<input type="text" name="username" value="" placeholder="" required><br>
-					Email:<input type="text" name="email" value="" placeholder="" required><br>
+					Username:<input type="text" name="username" value="" placeholder="" maxlength="16" required><br>
+					Email:<input type="text" name="email" value="" placeholder="" maxlength="32" required><br>
 					Password: <input type="password" name="password" value="" placeholder=""><br>
 					<span id="errordisplay"></span><br>
 					<input type="submit" name="submit" value="Register">

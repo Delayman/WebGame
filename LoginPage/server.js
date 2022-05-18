@@ -66,7 +66,7 @@ app.use(cookieParser());
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "",
+    password: "1123",
     database: "webgamedata"
 })
 
@@ -186,7 +186,7 @@ app.post('/writePost',async (req,res) => {
 
 app.get('/readRanking', async (req,res) => {
     
-    let ranking_read = `SELECT username, score FROM ${tablename} ORDER BY CAST(score AS INT) DESC LIMIT 10`;
+    let ranking_read = `SELECT username, score FROM ${tablename} ORDER BY CAST(score AS SIGNED INT) DESC LIMIT 10`;
     let result = await queryDB(ranking_read);
     
     result = Object.assign({},result);

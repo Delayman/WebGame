@@ -127,12 +127,12 @@ function showRanking(data){
 		divTag.appendChild(temp);
         
 		var temp1 = document.createElement("div");
-		temp1.className = "rankingUser" + (i+1);
+		temp1.className = "rankingUser";
 		temp1.innerHTML = data[keys[i]]["username"];
 		temp.appendChild(temp1);
 
 		var temp2 = document.createElement("div");
-		temp2.className = "rankingScore" + (i+1);
+		temp2.className = "rankingScore";
 		temp2.innerHTML = "Score: "+ data[keys[i]]["score"];
 		temp.appendChild(temp2);
 
@@ -140,14 +140,14 @@ function showRanking(data){
 		const tempscore = data[keys[i]]["score"]
 		
 		var temp3 = document.createElement("button");
-		temp3.className = "likeButton" + (i+1);
+		temp3.className = "likeButton";
 		temp3.innerHTML = "Like";
 		temp3.onclick = function () {socket.emit("like", tempusername , tempscore)}
 		temp3.disabled = username === tempusername;
 		temp.appendChild(temp3);
 					
 		var temp4 = document.createElement("button");
-		temp4.className = "dislikeButton" + (i+1);
+		temp4.className = "dislikeButton";
 		temp4.innerHTML = "Dislike";
 		temp4.onclick = function () {socket.emit("dislike", tempusername, tempscore)}
 		temp4.disabled = username === tempusername;
@@ -179,7 +179,7 @@ function showUsername()
 {
 	var divTag = document.getElementById("usernameSection");
 
-	divTag.innerHTML = "Welcome back, " + username;
+	divTag.innerHTML = "Welcome, " + username;
 }
 
 function showSelfScore(data)

@@ -18,6 +18,8 @@ div
 }
 #GameName
 {
+    width: 100%;
+    height: 100%;
     grid-column: 1 / span 1;
     background-color: rgb(13, 212, 43);
     color: azure;
@@ -30,9 +32,22 @@ div
     background-color: rgb(13, 212, 43);
     color: azure;
     font-size: 200%;
-    text-align: left;
-   
-    
+    text-align: left; 
+    width: 100%;
+}
+#usernameSection
+{
+    width: 100%;
+    margin-left: 15pt;
+}
+#Logout
+{
+    width: 100%;
+    text-align: right;
+}
+#Logout > a
+{
+    margin-right: 15pt;
 }
 #GameInterFace
 {
@@ -40,11 +55,11 @@ div
     background-color: rgb(105, 183, 232);
     color: azure;
 }
-#GameRanking
+#GameRankingContainer
 {
     grid-column: 2 / span 1;
     background-color: rgb(192, 192, 192);
-    color: rgb(56, 56, 56);
+    color: rgb(54, 54, 54);
 }
 #GamePost
 {
@@ -52,11 +67,7 @@ div
     background-color: rgb(42, 239, 223);
     color: rgb(56, 56, 56);
 }
-#Logout
-{
-    text-align: right;
-    
-}
+
 #Game_Pic
 {
     width: 40%;
@@ -71,9 +82,9 @@ div
 .ranking{
 	display: flex;
 	width: 100%;
-	text-align: center;
-	font-size: 20px;
-	margin-top: 15px;
+	justify-content: center;
+	margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .rankingScore{
@@ -82,10 +93,10 @@ div
 	background-color: #fcc652;
 	margin-left: 15px;
 
-	height: 100px;
+	height: 50%;
 	text-align: center;
-	line-height: 100px;
-	min-width: 200px;
+	line-height: 40px;
+	min-width: 100px;
 }
 
 .rankingUser {
@@ -94,9 +105,43 @@ div
 	background-color: #ffd68f;
 	margin-left: 15px;
 
-	height: 100px;
+	height: 50%;
 	width:50%;
 	text-align: center;
-	line-height: 100px;
+	line-height: 40px;
 	min-width: 200px;
+}
+
+.likeButton
+{
+    border-radius: 10pt;
+    margin-left: 5px;
+}
+
+.dislikeButton
+{
+    border-radius: 10pt;
+    margin-left: 5px;
+    margin-right: 15px;
+}
+
+@media only screen and (max-width: 1000px)
+{
+    #GameInterFace
+    {
+        grid-column: 1 / span 2;
+    }
+    #GameRankingContainer
+    {
+        grid-column: 1 / span 2;
+    }
+    .rankingScore{
+        line-height: 50px;
+        min-width: 70px;
+    }
+    
+    .rankingUser {
+        line-height: 50px;
+        min-width: 100px;
+    }
 }
