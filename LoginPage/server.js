@@ -208,7 +208,7 @@ app.post('/checkLogin',async (req,res) => {
 app.post('/Addlike',async (req,res) => {
     const newLike = req.body;
     let keys = Object.keys(newLike);
-    let like = `SELECT  likeCount ${tablename}`;
+    let like = `SELECT  likeCount FROM ${tablename}`;
     let result_like = await queryDB(like);
     result_like = result_like + newLike[keys[1]];
     console.log(result_like);
