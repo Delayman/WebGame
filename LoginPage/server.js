@@ -25,13 +25,13 @@ io.on('connection', (socket) => {
     })
 
     socket.on('like', async(username, score) => {
-        let msg_read = `UPDATE userinfo SET score = '${+score + +10}' WHERE username = '${username}'`;
+        let msg_read = `UPDATE userinfo SET score = '${+score + +1}' WHERE username = '${username}'`;
         let result = await queryDB(msg_read).then(() => 
         io.emit('updateScore'));
     })
 
     socket.on('dislike', async(username, score) => {
-        let msg_read = `UPDATE userinfo SET score = '${+score - 100}' WHERE username = '${username}'`;
+        let msg_read = `UPDATE userinfo SET score = '${+score - 1}' WHERE username = '${username}'`;
         let result = await queryDB(msg_read).then(() => 
         io.emit('updateScore'));
     })
