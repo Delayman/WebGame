@@ -2,6 +2,7 @@ body
 {
     margin: 0%;
     padding: 0%;
+    background-color: black;
 }
 div
 {
@@ -33,21 +34,18 @@ div
     color: azure;
     font-size: 200%;
     text-align: left; 
-    width: 100%;
 }
 #usernameSection
 {
-    width: 100%;
-    margin-left: 15pt;
+    padding-left: 15pt;
 }
 #Logout
 {
-    width: 100%;
     text-align: right;
 }
 #Logout > a
 {
-    margin-right: 15pt;
+    padding-right: 15pt;
 }
 #GameInterFace
 {
@@ -57,6 +55,7 @@ div
 }
 #GameRankingContainer
 {
+    width: 100%;
     grid-column: 2 / span 1;
     background-color: rgb(192, 192, 192);
     color: rgb(54, 54, 54);
@@ -67,7 +66,24 @@ div
     background-color: rgb(42, 239, 223);
     color: rgb(56, 56, 56);
 }
+#commentSection
+{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.postmsg
+{
+    border: 2px solid black ;
+    grid-column: 1 / span 1;
+    margin-bottom: 2px;
 
+}
+.postUser
+{
+    border: 2px solid black ;
+    grid-column: 2 / span 1;
+    margin-bottom: 2px;
+}
 #Game_Pic
 {
     width: 40%;
@@ -85,37 +101,45 @@ div
 	justify-content: center;
 	margin-top: 2%;
     margin-bottom: 2%;
+
+    /* font-size: 18pt; */
 }
 
 .rankingScore{
 	border-radius: 20px;
-	width: 30%;
 	background-color: #fcc652;
 	margin-left: 15px;
+    padding-top: 15pt;
+    padding-bottom: 15pt;
+    padding-left: 2pt;
+    padding-right: 2pt;
 
 	height: 50%;
+    width: 30%;
 	text-align: center;
-	line-height: 40px;
-	min-width: 100px;
+	/* line-height: 40px;
+	min-width: 100px; */
 }
 
 .rankingUser {
     border-radius: 20px;
-	width: 70%;
 	background-color: #ffd68f;
 	margin-left: 15px;
+    padding-top: 15pt;
+    padding-bottom: 15pt;
 
 	height: 50%;
 	width:50%;
 	text-align: center;
-	line-height: 40px;
-	min-width: 200px;
+	/* line-height: 40px;
+	min-width: 200px; */
 }
 
 .likeButton
 {
     border-radius: 10pt;
     margin-left: 5px;
+    width: 50pt;
 }
 
 .dislikeButton
@@ -123,10 +147,19 @@ div
     border-radius: 10pt;
     margin-left: 5px;
     margin-right: 15px;
+    width: 50pt;
 }
 
-@media only screen and (max-width: 1000px)
+@media only screen and (max-width: 1024px)
 {
+    #GameName
+    {
+        font-size: 200%;
+    }
+    #UserName
+    {
+        font-size: 150%;
+    }
     #GameInterFace
     {
         grid-column: 1 / span 2;
@@ -136,11 +169,15 @@ div
         grid-column: 1 / span 2;
     }
     .rankingScore{
+        padding-top: 10pt;
+        padding-bottom: 10pt;
         line-height: 50px;
         min-width: 70px;
     }
     
     .rankingUser {
+        padding-top: 10pt;
+        padding-bottom: 10pt;
         line-height: 50px;
         min-width: 100px;
     }

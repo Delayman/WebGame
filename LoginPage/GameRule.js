@@ -161,16 +161,17 @@ function showComment(data)
 	var divTag = document.getElementById("commentSection");
 	divTag.innerHTML = "";
 	for (var i = keys.length-1; i >=0 ; i--) 
-	{
+	{   
+		var msgtemp = document.createElement("div");
+		msgtemp.className = "postmsg";
+		msgtemp.innerHTML = data[keys[i]]["message"];
+		divTag.appendChild(msgtemp);
 
-		var temp = document.createElement("div");
-		temp.className = "comment";
-		divTag.appendChild(temp);
-        
-		var temp1 = document.createElement("div");
-		temp1.className = "postmsg";
-		temp1.innerHTML = data[keys[i]]["message"] + " Said by: "+data[keys[i]]["user"];
-		temp.appendChild(temp1);
+		
+		var usernametemp = document.createElement("div");
+		usernametemp.className = "postUser";
+		usernametemp.innerHTML = " Said by: "+data[keys[i]]["user"];
+		divTag.appendChild(usernametemp);
 		
 	}
 }
