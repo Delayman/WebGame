@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InGame</title>
     <link rel='stylesheet' type='text/css' media='screen' href='ArtGame.css'>
+    <script src="/socket.io/socket.io.js"></script>
     <script src='GameRule.js'></script>
 </head>
 <body>
@@ -18,17 +19,15 @@
 
         </div>
         <div id="UserName">
-            <h2>
-                Username
-            </h2>
+            <h3 id = "usernameSection"></h3>
             <p id ="Logout">
-                Logout
+                <a href="/logout"> Logout</a>
             </p>
 
         </div>
         <div id="GameInterFace">
             <p id ="Score">
-                0
+                
             </p>
             <img id = "Game_Pic" src="SadLump.png" alt = "Game Show?" />
 
@@ -43,6 +42,14 @@
             <h1>
                 GamePost
             </h1>
+            <div id="posting">
+                <textarea name="msg" id="textmsg" value="" placeholder="Type something..." rows="4" cols="50"></textarea>
+              <br>
+                <button id="postbutton">Post</button>
+            </div>
+            <div id="commentSection">
+
+            </div>
         </div>
 
 

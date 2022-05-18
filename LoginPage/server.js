@@ -5,9 +5,38 @@ const hostname = 'localhost';
 const port = 3000;
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-// const multer = require('multer');
 const path = require('path');
 const mysql = require('mysql');
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io =  require("socket.io")(server);
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+
+    
+    socket.on('updateSelfScore', async(username, score) => {
+        console.log(`score of ${username} update to ${score}`);
+
+        let msg_read = `UPDATE userinfo SET score = '${score}' WHERE username = '${username}'`;
+        let result = await queryDB(msg_read).then(() => 
+        io.emit('updateScore'));
+    })
+
+    socket.on('like', async(username, score) => {
+        let msg_read = `UPDATE userinfo SET score = '${+score + +10}' WHERE username = '${username}'`;
+        let result = await queryDB(msg_read).then(() => 
+        io.emit('updateScore'));
+    })
+
+    socket.on('dislike', async(username, score) => {
+        let msg_read = `UPDATE userinfo SET score = '${+score - 100}' WHERE username = '${username}'`;
+        let result = await queryDB(msg_read).then(() => 
+        io.emit('updateScore'));
+    })
+});
+
 
 app.use(express.static('LoginPage'));
 app.use(bodyParser.json());
@@ -131,7 +160,19 @@ app.get('/readPost', async (req,res) => {
     res.json(jsonData);
 })
 
-//ทำให้สมบูรณ์
+app.get('/readScore', async (req,res) => {
+    
+    let username = req.cookies.username
+    let msg_read = `SELECT score FROM ${tablename} WHERE username = '${username}'` ;
+    let result = await queryDB(msg_read);
+    result = Object.assign({},result);
+    console.log(result);
+    var jsonData = JSON.stringify(result);
+    res.json(jsonData);
+})
+
+
+
 app.post('/writePost',async (req,res) => {
     const newMsg = req.body;
     var keys = Object.keys(newMsg);
@@ -151,7 +192,7 @@ app.get('/readRanking', async (req,res) => {
     result = Object.assign({},result);
     // var jsonData = JSON.stringify(result);
     // res.json(jsonData);
-    console.log(result);
+    // console.log(result);
 
     var jsonData = JSON.stringify(result);
     res.json(jsonData);
@@ -165,7 +206,7 @@ app.get('/readRanking', async (req,res) => {
 
 })
 
-//ทำให้สมบูรณ์
+// var timer = setInterval(sleep(), 1000);
 
 app.post('/checkLogin',async (req,res) => {
     // ถ้าเช็คแล้ว username และ password ถูกต้อง
@@ -201,7 +242,7 @@ app.post('/checkLogin',async (req,res) => {
         return res.redirect('Game.html');
     }else
     {
-        return res.redirect('index.html?error=1')
+        return res.redirect('public/login.html?error=1')
     }
 })
 
@@ -225,6 +266,10 @@ app.post('/UpdateScore',async (req,res) => {
     result = Object.assign({},result)
 })
 
- app.listen(port, hostname, () => {
-        console.log(`Server running at   http://${hostname}:${port}/public/login.html`);
+app.listen(port, hostname, () => {
+        console.log(`Server running at   http://${hostname}:${port}/public/Login.html`);
+});
+
+server.listen(port, ()=>{
+  console.log('listening on *:3000');
 });
