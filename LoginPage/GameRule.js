@@ -34,11 +34,14 @@ function pageLoad()
 	document.getElementById('postbutton').onclick = getData;
     var img = document.getElementById("Game_Pic");
     var count = document.getElementById("Score");
+	var snd = new Audio("slap.mp3");
 
 	readSelfScore();
 	
     img.addEventListener('mousedown', function ()
     {
+		snd.play();
+		snd.currentTime = 0;
         IncreaseScore();
         img.src = 'HappyLump.png';
     });

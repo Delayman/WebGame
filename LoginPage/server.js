@@ -66,7 +66,7 @@ app.use(cookieParser());
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "1123",
+    password: "",
     database: "webgamedata"
 })
 
