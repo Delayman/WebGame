@@ -22,10 +22,9 @@ div
     width: 100%;
     height: 100%;
     grid-column: 1 / span 1;
-    background-color: rgb(13, 212, 43);
-    color: azure;
+    color: rgb(255, 166, 0);
     font-size: 300%;
-    
+    background-image: url(./bg5.webp);
 }
 #UserName
 {
@@ -34,6 +33,9 @@ div
     color: azure;
     font-size: 200%;
     text-align: left; 
+    background-image: url(./bg7.webp);
+    background-size: 120%;
+    background-position: center;
 }
 #usernameSection
 {
@@ -57,30 +59,40 @@ div
 {
     width: 100%;
     grid-column: 2 / span 1;
-    background-color: rgb(192, 192, 192);
     color: rgb(54, 54, 54);
+    background-image: url(./bg9.webp);
+    background-size: 100%;
+}
+#GameRankingHead
+{
+    color: white;
 }
 #GamePost
 {
     grid-column: 1 / span 2;
-    background-color: rgb(42, 239, 223);
     color: rgb(56, 56, 56);
+    background-image: url(./bg8.jpg);
 }
 #commentSection
 {
     display: grid;
     grid-template-columns: auto auto;
+    margin-top: 10pt;
 }
 .postmsg
 {
-    border: 2px solid black ;
+    border-bottom: 3px solid rgb(209, 166, 87);
+    background-color: whitesmoke;
+    border-radius: 5pt;
     grid-column: 1 / span 1;
     margin-bottom: 2px;
 
 }
 .postUser
 {
-    border: 2px solid black ;
+    border-bottom: 3px solid rgb(209, 166, 87);
+    background-color: whitesmoke;
+    border-radius: 5pt;
     grid-column: 2 / span 1;
     margin-bottom: 2px;
 }
@@ -140,6 +152,8 @@ div
     border-radius: 10pt;
     margin-left: 5px;
     width: 50pt;
+    border-color: red;
+    background-color: rgb(255, 154, 154);
 }
 
 .dislikeButton
@@ -148,8 +162,18 @@ div
     margin-left: 5px;
     margin-right: 15px;
     width: 50pt;
+    background-color: rgb(75, 75, 75);
+    color: rgb(255, 158, 158);
 }
-
+#Ref_container
+{
+    grid-column: 1 / span 2;
+    background-color: #ffd68f;
+}
+#Ref
+{
+    text-align: left;
+}
 @media only screen and (max-width: 1024px)
 {
     #GameName
@@ -159,6 +183,7 @@ div
     #UserName
     {
         font-size: 150%;
+        background-size: 150%;
     }
     #GameInterFace
     {
@@ -180,5 +205,12 @@ div
         padding-bottom: 10pt;
         line-height: 50px;
         min-width: 100px;
+    }
+}
+@media only screen and (max-width: 768px)
+{
+    #UserName
+    {
+        background-size: 200%;
     }
 }
